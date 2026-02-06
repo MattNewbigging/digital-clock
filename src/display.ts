@@ -3,25 +3,25 @@ import * as THREE from "three";
 function convertDigitToDisplayBits(digit: number) {
   switch (digit) {
     case 0:
-      return 0x1110111;
+      return 0b1110111;
     case 1:
-      return 0x0010010;
+      return 0b0010010;
     case 2:
-      return 0x1011101;
+      return 0b1011101;
     case 3:
-      return 0x1011011;
+      return 0b1011011;
     case 4:
-      return 0x0111010;
+      return 0b0111010;
     case 5:
-      return 0x1101011;
+      return 0b1101011;
     case 6:
-      return 0x1101111;
+      return 0b1101111;
     case 7:
-      return 0x1010010;
+      return 0b1010010;
     case 8:
-      return 0x1111111;
+      return 0b1111111;
     case 9:
-      return 0x1111010;
+      return 0b1111010;
     default:
       throw new Error("Not a single digit");
   }
@@ -29,7 +29,7 @@ function convertDigitToDisplayBits(digit: number) {
 
 export class Display extends THREE.Group {
   // top, topLeft, topRight, middle, botLeft, botRight, bot
-  private displayState = 0x1111111;
+  private displayState = 0b0000000;
 
   declare children: THREE.Mesh[];
 
@@ -77,7 +77,7 @@ export class Display extends THREE.Group {
     this.add(top, topLeft, topRight, middle, botLeft, botRight, bot);
     this.children.reverse();
 
-    //this.displayState = convertDigitToDisplayBits(1);
+    this.displayState = convertDigitToDisplayBits(1);
 
     this.children.forEach((child, i) => {
       const isActive = ((this.displayState >>> i) & 1) === 1;
