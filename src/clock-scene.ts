@@ -1,5 +1,7 @@
 import * as THREE from "three";
-import { Display } from "./display";
+import { TemperatureDisplay } from "./temperature-display";
+import { ScoreCounter } from "./score-counter";
+import { SecondsClock } from "./seconds-clock";
 
 // 7 segment display
 // 7 bits which represent which segment is active
@@ -12,14 +14,15 @@ class ClockScene {
   private scene = new THREE.Scene();
   private camera = new THREE.PerspectiveCamera();
 
-  private display: Display;
+  private secondsClock: SecondsClock;
 
   constructor() {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.camera.position.set(0, 0, 15);
 
-    this.display = new Display();
-    this.scene.add(this.display);
+    this.secondsClock = new SecondsClock();
+    this.scene.add(this.secondsClock);
   }
 
   start() {
@@ -31,6 +34,8 @@ class ClockScene {
 
   update = () => {
     requestAnimationFrame(this.update);
+
+    this.secondsClock.update();
 
     this.renderer.render(this.scene, this.camera);
   };

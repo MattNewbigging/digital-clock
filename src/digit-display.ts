@@ -23,11 +23,11 @@ function convertDigitToDisplayBits(digit: number) {
     case 9:
       return 0b1111010;
     default:
-      throw new Error("Not a single digit");
+      return 0b0000000;
   }
 }
 
-export class Display extends THREE.Group {
+export class DigitDisplay extends THREE.Group {
   // top, topLeft, topRight, middle, botLeft, botRight, bot
   private displayState = 0b0000000;
 
@@ -76,13 +76,15 @@ export class Display extends THREE.Group {
 
     this.add(top, topLeft, topRight, middle, botLeft, botRight, bot);
     this.children.reverse();
+  }
 
-    this.displayState = convertDigitToDisplayBits(1);
+  setState(digit: number) {
+    this.displayState = convertDigitToDisplayBits(digit);
 
     this.children.forEach((child, i) => {
       const isActive = ((this.displayState >>> i) & 1) === 1;
 
-      const intensity = isActive ? 1 : 0.1;
+      const intensity = isActive ? 1 : 0.01;
 
       (child.material as THREE.MeshStandardMaterial).emissiveIntensity =
         intensity;
