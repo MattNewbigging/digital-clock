@@ -1,5 +1,11 @@
+import { useEffect } from "react";
 import "./app.scss";
+import { clockScene } from "../clock-scene";
 
 export function App() {
-  return <div className="app">Hello World!</div>;
+  useEffect(() => {
+    clockScene.start();
+  }, []);
+
+  return null;
 }
